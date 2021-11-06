@@ -1,4 +1,6 @@
-# Employers accounting app
+# Employee accounting app
+
+App for employee accounting based on React+TypeScript
 
 ## Available Scripts
 
