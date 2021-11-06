@@ -6,11 +6,33 @@ import AppFilter from '../app-filter/AppFilter';
 import EmployeeList from '../employee-list/EmployeeList';
 import EmployeeAddForm from '../employee-add-form/EmployeeAddForm';
 
+export interface IData {
+  id: string | number;
+  name: string;
+  salary: number;
+  isIncrease: boolean;
+}
+
 function App() {
-  const data = [
-    { name: 'Konstantin Karpov', salary: 800, isIncrease: true },
-    { name: 'Alexey Berezin', salary: 1000, isIncrease: false },
-    { name: 'Daniel Jackson', salary: 2550, isIncrease: false },
+  const data: IData[] = [
+    {
+      id: 'sdfsasajhds',
+      name: 'Konstantin Karpov',
+      salary: 800,
+      isIncrease: true,
+    },
+    {
+      id: 'slhdsvsadsa',
+      name: 'Alexey Berezin',
+      salary: 1000,
+      isIncrease: false,
+    },
+    {
+      id: 'oiuhdsavbdd',
+      name: 'Daniel Jackson',
+      salary: 2550,
+      isIncrease: false,
+    },
   ];
 
   return (

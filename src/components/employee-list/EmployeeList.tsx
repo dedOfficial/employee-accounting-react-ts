@@ -1,16 +1,15 @@
 import './EmployeeList.css';
 
-import EmployeeListItem, {
-  EmployeeProp,
-} from '../employee-list-item/EmployeeListItem';
+import EmployeeListItem from '../employee-list-item/EmployeeListItem';
 
+import { IData } from '../app/App';
 interface EmployeeListProp {
-  employeeList: EmployeeProp[];
+  employeeList: IData[];
 }
 
 function EmployeeList({ employeeList }: EmployeeListProp) {
-  const mappedEmployeeList = employeeList.map((employee, i) => (
-    <EmployeeListItem {...employee} key={i} />
+  const mappedEmployeeList = employeeList.map(({ id, ...employeeProps }) => (
+    <EmployeeListItem {...employeeProps} key={id} />
   ));
 
   return <ul className="app-list list-group">{mappedEmployeeList}</ul>;

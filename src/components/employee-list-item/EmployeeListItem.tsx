@@ -1,10 +1,7 @@
+import { IData } from '../app/App';
 import './EmployeeListItem.css';
 
-export interface EmployeeProp {
-  name: string;
-  salary: number;
-  isIncrease: boolean;
-}
+type EmployeeProp = Omit<IData, 'id'>;
 
 function EmployeeListItem({ name, salary = 1000, isIncrease }: EmployeeProp) {
   const increaseClass = isIncrease ? ' increase' : '';
