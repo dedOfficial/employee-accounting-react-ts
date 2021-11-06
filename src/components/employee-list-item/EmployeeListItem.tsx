@@ -1,14 +1,26 @@
 import './EmployeeListItem.css';
 
-function EmployeeListItem() {
+export interface EmployeeProp {
+  name: string;
+  salary: number;
+  isIncrease: boolean;
+}
+
+function EmployeeListItem({ name, salary = 1000, isIncrease }: EmployeeProp) {
+  const increaseClass = isIncrease ? ' increase' : '';
+
   return (
-    <li className="list-group-item d-flex justify-content-between">
-      <span className="list-group-item-label">Konstantin Karpov</span>
+    <li
+      className={
+        'list-group-item d-flex justify-content-between' + increaseClass
+      }
+    >
+      <span className="list-group-item-label">{name}</span>
 
       <input
         type="text"
         className="list-group-item-input"
-        defaultValue="1000$"
+        defaultValue={salary + '$'}
       />
 
       <div className="d-flex justify-content-center align-items-center">

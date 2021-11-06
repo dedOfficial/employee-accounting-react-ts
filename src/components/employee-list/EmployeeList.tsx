@@ -1,15 +1,19 @@
 import './EmployeeList.css';
 
-import EmployeeListItem from '../employee-list-item/EmployeeListItem';
+import EmployeeListItem, {
+  EmployeeProp,
+} from '../employee-list-item/EmployeeListItem';
 
-function EmployeeList() {
-  return (
-    <ul className="app-list list-group">
-      <EmployeeListItem />
-      <EmployeeListItem />
-      <EmployeeListItem />
-    </ul>
-  );
+interface EmployeeListProp {
+  employeeList: EmployeeProp[];
+}
+
+function EmployeeList({ employeeList }: EmployeeListProp) {
+  const mappedEmployeeList = employeeList.map((employee, i) => (
+    <EmployeeListItem {...employee} key={i} />
+  ));
+
+  return <ul className="app-list list-group">{mappedEmployeeList}</ul>;
 }
 
 export default EmployeeList;
