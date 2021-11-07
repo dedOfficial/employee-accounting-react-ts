@@ -152,6 +152,7 @@ class App extends Component {
     const increasedCount = data.filter(
       (employee) => employee.isIncrease
     ).length;
+    const choosenCount = data.filter((employee) => employee.isChoosen).length;
 
     const filteredData = this.categoryFilterData(
       this.searchFilterData(data, query),
@@ -160,7 +161,11 @@ class App extends Component {
 
     return (
       <div className="App">
-        <AppInfo employeesCount={data.length} increasedCount={increasedCount} />
+        <AppInfo
+          employeesCount={data.length}
+          increasedCount={increasedCount}
+          choosenCount={choosenCount}
+        />
 
         <div className="search-panel">
           <SearchPanel onSearch={this.setQuery} />
