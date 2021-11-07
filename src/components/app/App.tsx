@@ -63,6 +63,7 @@ class App extends Component {
     this.setFilter = this.setFilter.bind(this);
     this.searchFilterData = this.searchFilterData.bind(this);
     this.categoryFilterData = this.categoryFilterData.bind(this);
+    this.updateEmployee = this.updateEmployee.bind(this);
   }
 
   removeEmployee(id: string) {
@@ -75,6 +76,22 @@ class App extends Component {
     this.setState(({ data }: AppState) => ({
       data: [...data, employeeData],
     }));
+  }
+
+  updateEmployee(id: string, changedProp: keyof IData, newValue: any) {
+    this.setState(({ data }: AppState) => {
+      const updatedData = data.map((employee) => {
+        if (employee.id === id) {
+          return {
+            ...employee,
+            [changedProp]: newValue,
+          };
+        }
+        return employee;
+      });
+
+      return { data: updatedData };
+    });
   }
 
   protected setDataBooleanProps(propName: TDataBooleans, id: string) {
@@ -155,6 +172,7 @@ class App extends Component {
           onRemoveEmployee={this.removeEmployee}
           onIncrease={this.setIncrease}
           onChoose={this.setChoosen}
+          onUpdate={this.updateEmployee}
         />
 
         <EmployeeAddForm onAddEmployee={this.addEmployee} />

@@ -8,6 +8,7 @@ interface EmployeeListProp {
   onRemoveEmployee: (id: string) => void;
   onIncrease: (id: string) => void;
   onChoose: (id: string) => void;
+  onUpdate: (id: string, changedProp: keyof IData, newValue: any) => void;
 }
 
 function EmployeeList({
@@ -15,6 +16,7 @@ function EmployeeList({
   onRemoveEmployee,
   onIncrease,
   onChoose,
+  onUpdate,
 }: EmployeeListProp) {
   const mappedEmployeeList = employeeList.map(({ id, ...employeeProps }) => (
     <EmployeeListItem
@@ -22,6 +24,9 @@ function EmployeeList({
       onRemoveEmployee={() => onRemoveEmployee(id)}
       onChoose={() => onChoose(id)}
       onIncrease={() => onIncrease(id)}
+      onUpdate={(changedProp: keyof IData, newValue: any) =>
+        onUpdate(id, changedProp, newValue)
+      }
       key={id}
     />
   ));
