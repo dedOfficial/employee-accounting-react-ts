@@ -52,7 +52,7 @@
 
 .list-group-item.like .fa-star {
   opacity: 1;
-  transform: translateX(0px);
+  transform: translateX(0px) translateY(8px);
 }
 
 .list-group-item.increase .list-group-item-label,
