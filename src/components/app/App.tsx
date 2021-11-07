@@ -8,6 +8,7 @@ import EmployeeAddForm from '../employee-add-form/EmployeeAddForm';
 import { Component } from 'react';
 
 type TDataBooleans = 'isIncrease' | 'isChoosen';
+export type filterByType = 'all' | 'increased' | 'big-salary';
 export interface IData {
   id: string;
   name: string;
@@ -18,6 +19,8 @@ export interface IData {
 
 interface AppState {
   data: IData[];
+  query: string;
+  filterBy: filterByType;
 }
 
 class App extends Component {
@@ -47,6 +50,8 @@ class App extends Component {
           isChoosen: false,
         },
       ],
+      query: '',
+      filterBy: 'all',
     };
 
     this.removeEmployee = this.removeEmployee.bind(this);
@@ -54,6 +59,10 @@ class App extends Component {
     this.setDataBooleanProps = this.setDataBooleanProps.bind(this);
     this.setChoosen = this.setChoosen.bind(this);
     this.setIncrease = this.setIncrease.bind(this);
+    this.setQuery = this.setQuery.bind(this);
+    this.setFilter = this.setFilter.bind(this);
+    this.searchFilterData = this.searchFilterData.bind(this);
+    this.categoryFilterData = this.categoryFilterData.bind(this);
   }
 
   removeEmployee(id: string) {
@@ -68,7 +77,7 @@ class App extends Component {
     }));
   }
 
-  setDataBooleanProps(propName: TDataBooleans, id: string) {
+  protected setDataBooleanProps(propName: TDataBooleans, id: string) {
     this.setState(({ data }: AppState) => ({
       data: data.map((employee) => {
         if (employee.id === id) {
@@ -86,23 +95,65 @@ class App extends Component {
     this.setDataBooleanProps('isIncrease', id);
   }
 
+  searchFilterData(data: IData[], query: string) {
+    if (!query.length) {
+      return data;
+    }
+
+    const lowercasedQuery = query.toLowerCase();
+
+    return data.filter((employee) => {
+      const lowercasedName = employee.name.toLowerCase();
+
+      return lowercasedName.indexOf(lowercasedQuery) > -1;
+    });
+  }
+
+  categoryFilterData(data: IData[], filterBy: filterByType) {
+    const { query } = this.state as AppState;
+
+    switch (filterBy) {
+      case 'increased':
+        return data.filter((employee) => employee.isIncrease);
+      case 'big-salary':
+        return data.filter(
+          (employee) => employee.salary && employee.salary > 1000
+        );
+      default:
+        return data;
+    }
+  }
+
+  setQuery(query: string) {
+    this.setState({ query });
+  }
+
+  setFilter(filterBy: filterByType) {
+    this.setState({ filterBy });
+  }
+
   render() {
-    const { data } = this.state as AppState;
+    const { data, filterBy, query } = this.state as AppState;
     const increasedCount = data.filter(
       (employee) => employee.isIncrease
     ).length;
 
+    const filteredData = this.categoryFilterData(
+      this.searchFilterData(data, query),
+      filterBy
+    );
+
     return (
       <div className="App">
-        <AppInfo employeesCount={data.length} increasedCount={increasedCount}/>
+        <AppInfo employeesCount={data.length} increasedCount={increasedCount} />
 
         <div className="search-panel">
-          <SearchPanel />
-          <AppFilter />
+          <SearchPanel onSearch={this.setQuery} />
+          <AppFilter onChangeCategory={this.setFilter} filter={filterBy} />
         </div>
 
         <EmployeeList
-          employeeList={data}
+          employeeList={filteredData}
           onRemoveEmployee={this.removeEmployee}
           onIncrease={this.setIncrease}
           onChoose={this.setChoosen}
