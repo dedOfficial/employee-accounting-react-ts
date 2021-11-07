@@ -38,6 +38,7 @@ class EmployeeAddForm extends Component<AddFormProp> {
       salary,
       id: String(Math.random()),
       isIncrease: false,
+      isChoosen: false,
     };
   }
 

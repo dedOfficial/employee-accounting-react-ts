@@ -7,11 +7,13 @@ import EmployeeList from '../employee-list/EmployeeList';
 import EmployeeAddForm from '../employee-add-form/EmployeeAddForm';
 import { Component } from 'react';
 
+type TDataBooleans = 'isIncrease' | 'isChoosen';
 export interface IData {
   id: string;
   name: string;
   salary: number | null;
   isIncrease: boolean;
+  isChoosen: boolean;
 }
 
 interface AppState {
@@ -28,24 +30,31 @@ class App extends Component {
           name: 'Konstantin Karpov',
           salary: 800,
           isIncrease: true,
+          isChoosen: false,
         },
         {
           id: 'slhdsvsadsa',
           name: 'Alexey Berezin',
           salary: 1000,
           isIncrease: false,
+          isChoosen: true,
         },
         {
           id: 'oiuhdsavbdd',
           name: 'Daniel Jackson',
           salary: 2550,
           isIncrease: false,
+          isChoosen: false,
         },
       ],
     };
 
     this.removeEmployee = this.removeEmployee.bind(this);
     this.addEmployee = this.addEmployee.bind(this);
+    this.setDataBooleanProps = this.setDataBooleanProps.bind(this);
+    this.setChoosen = this.setChoosen.bind(this);
+    this.setIncrease = this.setIncrease.bind(this);
+    // this.toggleBoolProperty = this.toggleBoolProperty.bind(this);
   }
 
   removeEmployee(id: string) {
@@ -58,6 +67,28 @@ class App extends Component {
     this.setState(({ data }: AppState) => ({
       data: [...data, employeeData],
     }));
+  }
+
+  // toggleBoolProperty(obj: IData, propName: TDataBooleans) {
+  //   return { ...obj, [propName]: !obj[propName] };
+  // }
+
+  setDataBooleanProps(propName: TDataBooleans, id: string) {
+    this.setState(({ data }: AppState) => ({
+      data: data.map((employee) => {
+        if (employee.id === id) {
+          return { ...employee, [propName]: !employee[propName] };
+        }
+        return employee;
+      }),
+    }));
+  }
+
+  setChoosen(id: string) {
+    this.setDataBooleanProps('isChoosen', id);
+  }
+  setIncrease(id: string) {
+    this.setDataBooleanProps('isIncrease', id);
   }
 
   render() {
@@ -75,6 +106,8 @@ class App extends Component {
         <EmployeeList
           employeeList={data}
           onRemoveEmployee={this.removeEmployee}
+          onIncrease={this.setIncrease}
+          onChoose={this.setChoosen}
         />
 
         <EmployeeAddForm onAddEmployee={this.addEmployee} />

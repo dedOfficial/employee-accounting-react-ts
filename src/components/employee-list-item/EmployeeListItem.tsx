@@ -2,41 +2,24 @@ import { Component, MouseEventHandler } from 'react';
 import { IData } from '../app/App';
 import './EmployeeListItem.css';
 
-type EmployeeProp = Omit<IData, 'id'> &
-  Record<'onRemoveEmployee', MouseEventHandler<HTMLButtonElement>>;
-
-interface EmployeeState {
-  isIncrease: boolean;
-  isChoosen: boolean;
+interface EmployeeProp extends Omit<IData, 'id'> {
+  onRemoveEmployee: MouseEventHandler<HTMLButtonElement>;
+  onIncrease: MouseEventHandler<HTMLButtonElement>;
+  onChoose: MouseEventHandler<HTMLSpanElement>;
 }
 
 class EmployeeListItem extends Component<EmployeeProp> {
-  constructor(props: EmployeeProp) {
-    super(props);
-
-    this.state = {
-      isIncrease: false,
-    };
-
-    this.setIncrease = this.setIncrease.bind(this);
-    this.setChoosen = this.setChoosen.bind(this);
-  }
-
-  setIncrease() {
-    this.setState(({ isIncrease }: EmployeeState) => ({
-      isIncrease: !isIncrease,
-    }));
-  }
-
-  setChoosen() {
-    this.setState(({ isChoosen }: EmployeeState) => ({
-      isChoosen: !isChoosen,
-    }));
-  }
-
   render() {
-    const { name, salary, onRemoveEmployee } = this.props as EmployeeProp;
-    const { isIncrease, isChoosen } = this.state as EmployeeState;
+    const {
+      name,
+      salary,
+      onRemoveEmployee,
+      onIncrease,
+      onChoose,
+      isIncrease,
+      isChoosen,
+    } = this.props as EmployeeProp;
+    // const { isIncrease, isChoosen } = this.state as EmployeeState;
 
     const increaseClass = isIncrease ? ' increase' : '';
     const choosenClass = isChoosen ? ' like' : '';
@@ -49,7 +32,7 @@ class EmployeeListItem extends Component<EmployeeProp> {
           choosenClass
         }
       >
-        <span className="list-group-item-label" onClick={this.setChoosen}>
+        <span className="list-group-item-label" onClick={onChoose}>
           {name}
         </span>
 
@@ -63,7 +46,7 @@ class EmployeeListItem extends Component<EmployeeProp> {
           <button
             type="button"
             className="btn-cookie btn-sm"
-            onClick={this.setIncrease}
+            onClick={onIncrease}
           >
             <i className="fas fa-cookie"></i>
           </button>
