@@ -54,7 +54,6 @@ class App extends Component {
     this.setDataBooleanProps = this.setDataBooleanProps.bind(this);
     this.setChoosen = this.setChoosen.bind(this);
     this.setIncrease = this.setIncrease.bind(this);
-    // this.toggleBoolProperty = this.toggleBoolProperty.bind(this);
   }
 
   removeEmployee(id: string) {
@@ -68,10 +67,6 @@ class App extends Component {
       data: [...data, employeeData],
     }));
   }
-
-  // toggleBoolProperty(obj: IData, propName: TDataBooleans) {
-  //   return { ...obj, [propName]: !obj[propName] };
-  // }
 
   setDataBooleanProps(propName: TDataBooleans, id: string) {
     this.setState(({ data }: AppState) => ({
@@ -93,10 +88,13 @@ class App extends Component {
 
   render() {
     const { data } = this.state as AppState;
+    const increasedCount = data.filter(
+      (employee) => employee.isIncrease
+    ).length;
 
     return (
       <div className="App">
-        <AppInfo />
+        <AppInfo employeesCount={data.length} increasedCount={increasedCount}/>
 
         <div className="search-panel">
           <SearchPanel />
