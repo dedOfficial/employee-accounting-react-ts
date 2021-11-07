@@ -110,8 +110,6 @@ class App extends Component {
   }
 
   categoryFilterData(data: IData[], filterBy: filterByType) {
-    const { query } = this.state as AppState;
-
     switch (filterBy) {
       case 'increased':
         return data.filter((employee) => employee.isIncrease);
