@@ -11,7 +11,18 @@
   margin-top: 20px;
 }
 
-.add-form input {
-  width: 50%;
+.add-form div {
   margin-right: 20px;
+}
+
+.add-form input {
+  width: 100%;
+}
+
+.add-form button {
+  max-height: 38px;
+}
+
+.validator-error {
+  color: red;
 }
