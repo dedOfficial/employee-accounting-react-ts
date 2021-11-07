@@ -1,15 +1,16 @@
-import { Component } from 'react';
+import { Component, MouseEventHandler } from 'react';
 import { IData } from '../app/App';
 import './EmployeeListItem.css';
 
-type EmployeeProp = Omit<IData, 'id'>;
+type EmployeeProp = Omit<IData, 'id'> &
+  Record<'onRemoveEmployee', MouseEventHandler<HTMLButtonElement>>;
 
 interface EmployeeState {
   isIncrease: boolean;
   isChoosen: boolean;
 }
 
-class EmployeeListItem extends Component {
+class EmployeeListItem extends Component<EmployeeProp> {
   constructor(props: EmployeeProp) {
     super(props);
 
@@ -34,7 +35,7 @@ class EmployeeListItem extends Component {
   }
 
   render() {
-    const { name, salary } = this.props as EmployeeProp;
+    const { name, salary, onRemoveEmployee } = this.props as EmployeeProp;
     const { isIncrease, isChoosen } = this.state as EmployeeState;
 
     const increaseClass = isIncrease ? ' increase' : '';
@@ -67,7 +68,7 @@ class EmployeeListItem extends Component {
             <i className="fas fa-cookie"></i>
           </button>
 
-          <button className="btn-trash btn-sm">
+          <button className="btn-trash btn-sm" onClick={onRemoveEmployee}>
             <i className="fas fa-trash"></i>
           </button>
 

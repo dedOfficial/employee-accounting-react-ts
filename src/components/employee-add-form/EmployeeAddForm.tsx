@@ -1,12 +1,15 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, Component, FormEvent } from 'react';
+import { IData } from '../app/App';
 import './EmployeeAddForm.css';
 
-interface AddFormProp {}
+interface AddFormProp {
+  onAddEmployee: (employeeData: IData) => void;
+}
 interface AddFormState {
   name: string;
   salary: number | null;
 }
-class EmployeeAddForm extends Component {
+class EmployeeAddForm extends Component<AddFormProp> {
   constructor(props: AddFormProp) {
     super(props);
 
@@ -15,14 +18,36 @@ class EmployeeAddForm extends Component {
       salary: null,
     };
 
-    this.setFormData = this.setFormData.bind(this);
+    this.setEmployeeData = this.setEmployeeData.bind(this);
+    this.serializeEmployeeData = this.serializeEmployeeData.bind(this);
+    this.addEmployee = this.addEmployee.bind(this);
   }
 
-  setFormData(e: ChangeEvent<HTMLInputElement>) {
+  setEmployeeData(e: ChangeEvent<HTMLInputElement>) {
     const t = e.target;
 
     this.setState({
       [t.name]: t.value,
+    });
+  }
+
+  serializeEmployeeData() {
+    const { name, salary } = this.state as AddFormState;
+    return {
+      name,
+      salary,
+      id: String(Math.random()),
+      isIncrease: false,
+    };
+  }
+
+  addEmployee(e: FormEvent) {
+    e.preventDefault();
+    const newEmployee = this.serializeEmployeeData();
+    this.props.onAddEmployee(newEmployee);
+    this.setState({
+      name: '',
+      salary: null,
     });
   }
 
@@ -32,14 +57,14 @@ class EmployeeAddForm extends Component {
     return (
       <div className="app-add form">
         <h3>Добавьте нового сотрудника</h3>
-        <form className="add-form d-flex">
+        <form className="add-form d-flex" onSubmit={this.addEmployee}>
           <input
             type="text"
             className="form-control new-post-label"
             placeholder="Как его зовут?"
             name="name"
             value={name}
-            onChange={this.setFormData}
+            onChange={this.setEmployeeData}
           />
           <input
             type="number"
@@ -47,7 +72,7 @@ class EmployeeAddForm extends Component {
             placeholder="З/П в долларах?"
             name="salary"
             value={salary ? salary : ''}
-            onChange={this.setFormData}
+            onChange={this.setEmployeeData}
           />
 
           <button type="submit" className="btn btn-outline-light">
