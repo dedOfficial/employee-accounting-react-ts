@@ -2,6 +2,8 @@
 
 App for employee accounting based on React+TypeScript
 
+### Deployed on Firebase: https://employees-accounting.web.app/
+
 ## Available Scripts
 
 In the project directory, you can run:
